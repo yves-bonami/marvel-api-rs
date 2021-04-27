@@ -6,5 +6,6 @@ pub struct DataContainer{
     pub limit: Option<u32>,
     pub total: Option<u32>,
     pub count: Option<u32>,
-    pub results: Option<DataType>,
+    #[serde(default)]
+    pub results: Vec<DataType>,
 }
