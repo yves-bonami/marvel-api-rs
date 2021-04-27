@@ -1,10 +1,13 @@
 [package]
 name = "marvel-api-rs"
-version = "0.1.0"
-authors = ["Yves Bonami <yves.bonami@reniver.eu>"]
+description = "An API wrapper around the Marvel official API"
+version = "0.0.0"
+authors = ["Yves Bonami <yves.bonami@gmail.com>"]
+license = "MIT" 
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+homepage = "https://github.com/yves-bonami/marvel-api-rs"
+repository = "https://github.com/yves-bonami/marvel-api-rs"
+readme = "README.md"
 
 [dependencies]
 serde = { version = "1.0", features = [ "derive" ] }
