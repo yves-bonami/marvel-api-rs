@@ -19,4 +19,7 @@ jobs:
     - name: Build
       run: cargo build --verbose
     - name: Run tests
+      env: 
+        MARVEL_PUBLIC: ${{secrets.MARVEL_PUBLIC}}
+        MARVEL_PRIVATE: ${{secrets.MARVEL_PRIVATE}}
       run: cargo test --verbose
