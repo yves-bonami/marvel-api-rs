@@ -10,11 +10,11 @@ mod events;
 mod series;
 mod stories;
 
-pub use characters::Character;
-pub use comics::Comic;
-pub use creators::Creator;
-pub use events::Event;
-pub use series::Series;
-pub use stories::Story;
+pub use characters::*;
+pub use comics::*;
+pub use creators::*;
+pub use events::*;
+pub use series::*;
+pub use stories::*;
 
 pub use common::NoneFilter;

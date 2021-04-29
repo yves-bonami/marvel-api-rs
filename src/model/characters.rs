@@ -1,3 +1,5 @@
+use std::{collections::HashMap, fmt::Display};
+
 use chrono::{DateTime, Utc};
 
 use crate::api::{ApiError, Filter, RequestHandler};
@@ -92,88 +94,56 @@ impl Filter for CharactersFilter {
     fn build(self, url: String) -> String {
         let mut url = url::Url::parse(&url).unwrap();
 
-        url = match &self.name {
-            Some(n) => {
-                url.query_pairs_mut().append_pair("name", n);
-                url
-            }
-            None => url,
-        };
+        let mut queries = HashMap::new();
 
-        url = match &self.name_starts_with {
-            Some(n) => {
-                url.query_pairs_mut().append_pair("nameStartsWith", n);
-                url
-            }
-            None => url,
-        };
-
-        url = match &self.modified_since {
-            Some(n) => {
-                url.query_pairs_mut()
-                    .append_pair("modifiedSince", &n.to_string());
-                url
-            }
-            None => url,
-        };
-
-        url = match &self.comics {
-            Some(n) => {
-                url.query_pairs_mut().append_pair("comics", n);
-                url
-            }
-            None => url,
-        };
-
-        url = match &self.events {
-            Some(n) => {
-                url.query_pairs_mut().append_pair("events", n);
-                url
-            }
-            None => url,
-        };
-
-        url = match &self.stories {
-            Some(n) => {
-                url.query_pairs_mut().append_pair("stories", n);
-                url
-            }
-            None => url,
-        };
-
-        url = match &self.order_by {
-            Some(n) => {
-                url.query_pairs_mut().append_pair("orderBy", n);
-                url
-            }
-            None => url,
-        };
-
-        url = match &self.comics {
-            Some(n) => {
-                url.query_pairs_mut().append_pair("comics", n);
-                url
-            }
-            None => url,
-        };
-
-        url = match &self.limit {
-            Some(n) => {
-                url.query_pairs_mut().append_pair("limit", &n.to_string());
-                url
-            }
-            None => url,
-        };
-
-        url = match &self.offset {
-            Some(n) => {
-                url.query_pairs_mut().append_pair("offset", &n.to_string());
-                url
-            }
-            None => url,
-        };
-
+        self.insert(&mut queries, "name".into(), self.name.as_ref())
+            .insert(
+                &mut queries,
+                "nameStartsWith".into(),
+                self.name_starts_with.as_ref(),
+            )
+            .insert(
+                &mut queries,
+                "modifiedSince".into(),
+                self.modified_since.as_ref(),
+            )
+            .insert(&mut queries, "comics".into(), self.comics.as_ref())
+            .insert(&mut queries, "events".into(), self.events.as_ref())
+            .insert(&mut queries, "stories".into(), self.stories.as_ref())
+            .insert(&mut queries, "series".into(), self.series.as_ref())
+            .insert(&mut queries, "orderBy".into(), self.order_by.as_ref())
+            .insert(&mut queries, "limit".into(), self.limit.as_ref())
+            .insert(&mut queries, "offset".into(), self.offset.as_ref());
+        url.query_pairs_mut().extend_pairs(queries);
         url.into_string()
+    }
+}
+
+impl CharactersFilter {
+    pub fn new() -> Self {
+        CharactersFilter {
+            name: None,
+            name_starts_with: None,
+            modified_since: None,
+            comics: None,
+            series: None,
+            events: None,
+            stories: None,
+            order_by: None,
+            limit: None,
+            offset: None,
+        }
+    }
+    fn insert<T: Display>(
+        &self,
+        queries: &mut HashMap<String, String>,
+        name: String,
+        value: Option<&T>,
+    ) -> &Self {
+        if value.is_some() {
+            queries.insert(name, value.unwrap().to_string());
+        }
+        self
     }
 }
 
