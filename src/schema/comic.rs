@@ -1,0 +1,35 @@
+use super::common::{DataList, Date, Image, Price, Summary, TextObject, Url};
+
+#[derive(Debug, Default, Deserialize)]
+#[serde(default)]
+pub struct Comic {
+    pub id: u32,
+    pub digital_id: u32,
+    pub title: String,
+    pub issue_number: f32,
+    pub variant_description: String,
+    pub description: String,
+    pub modified: String,
+    pub isbn: String,
+    pub upc: String,
+    pub diamond_code: String,
+    pub ean: String,
+    pub issn: String,
+    pub format: String,
+    pub page_count: u32,
+    pub text_objects: Vec<TextObject>,
+    pub resource_uri: String,
+    pub urls: Vec<Url>,
+    pub series: Summary,
+    pub variants: Vec<Summary>,
+    pub collections: Vec<Summary>,
+    pub collected_issues: Vec<Summary>,
+    pub dates: Vec<Date>,
+    pub prices: Vec<Price>,
+    pub thumbnail: Image,
+    pub images: Vec<Image>,
+    pub creators: DataList,
+    pub characters: DataList,
+    pub stories: DataList,
+    pub events: DataList,
+}
